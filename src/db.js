@@ -1,9 +1,8 @@
 var mongoose = require('mongoose')
+var config = require('./config')
 
-const dbConfig = require('../config/db')
-
-mongoose.connect(dbConfig.url, { useMongoClient: true }).then(
-  () => { console.log('Connected to url: ' + dbConfig.url) },
+mongoose.connect(config.get('mongoose:uri'), { useMongoClient: true }).then(
+  () => { console.log('Connected to url: ' + config.get('mongoose:uri')) },
   err => { console.error(err) }
 )
 mongoose.Promise = global.Promise
