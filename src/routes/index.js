@@ -12,6 +12,7 @@ function showError(res, err) {
 
 router.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 })
@@ -68,8 +69,8 @@ router.put('/games/:id', (req, res, next) => {
   models.Game.findById(id, (err, model) => {
     if (err) return showError(res, err)
 
-    model.title = req.body.title
-    model.body = req.body.body
+    model.name = req.body.name
+    model.description = req.body.description
     model.save((err, model) => {
       if (err) return showError(res, err)
 
