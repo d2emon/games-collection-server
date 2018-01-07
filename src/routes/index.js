@@ -10,12 +10,18 @@ function showError(res, err) {
   return console.error(err)
 }
 
+router.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+})
+
 /* GET home page. */
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   res.render('index', { title: 'Express' })
 })
 
-router.get('/games', (req, res) => {
+router.get('/games', (req, res, next) => {
   models.Game.find({}, (err, models) => {
     if (err) return console.error(err)
 
@@ -23,7 +29,7 @@ router.get('/games', (req, res) => {
   })
 })
 
-router.post('/games', (req, res) => {
+router.post('/games', (req, res, next) => {
   var note = new models.Game({
     title: req.body.title,
     body: req.body.body
@@ -36,7 +42,7 @@ router.post('/games', (req, res) => {
   })
 })
 
-router.get('/games/:id', (req, res) => {
+router.get('/games/:id', (req, res, next) => {
   const id = req.params.id
 
   models.Game.findById(id, (err, model) => {
@@ -46,7 +52,7 @@ router.get('/games/:id', (req, res) => {
   })
 })
 
-router.delete('/games/:id', (req, res) => {
+router.delete('/games/:id', (req, res, next) => {
   const id = req.params.id
 
   models.Game.findByIdAndRemove(id, (err, model) => {
@@ -56,7 +62,7 @@ router.delete('/games/:id', (req, res) => {
   })
 })
 
-router.put('/games/:id', (req, res) => {
+router.put('/games/:id', (req, res, next) => {
   const id = req.params.id
 
   models.Game.findById(id, (err, model) => {
