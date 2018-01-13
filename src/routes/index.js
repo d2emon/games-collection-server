@@ -78,4 +78,23 @@ router.put('/games/:id', (req, res, next) => {
     })
   })
 })
+
+router.get('/companies', (req, res, next) => {
+  /*
+  models.Game.find({}, (err, models) => {
+    if (err) return console.error(err)
+
+    res.send(models)
+  })
+  */
+  var companies = [
+    {id: 1, title: "Category 1"},
+    {id: 2, title: "Category 2"},
+    {id: 3, title: "Category 3"},
+    {id: 4, title: "Category 4"},
+    {id: 5, title: "Category 5"},
+  ]
+  res.send(companies)
+})
+
 module.exports = router
