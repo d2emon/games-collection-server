@@ -1,9 +1,5 @@
-const schemaOptions = {
+export default {
   toObject: {
     virtuals: true
   }
-}
-
-module.exports = {
-  Options: schemaOptions
 }

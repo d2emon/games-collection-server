@@ -24,7 +24,6 @@ router.get('/', (req, res, next) => {
 
 // Games
 router.get('/games', (req, res, next) => {
-  console.log(Game)
   Game.find({}, (err, models) => {
     if (err) return console.error(err)
 
@@ -92,8 +91,8 @@ router.get('/companies', (req, res, next) => {
 
 router.post('/companies', (req, res, next) => {
   var note = new Company({
-    title: req.body.title,
-    body: req.body.body
+    name: req.body.name,
+    description: req.body.description
   })
 
   note.save((err, model) => {

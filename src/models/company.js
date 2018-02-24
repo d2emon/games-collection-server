@@ -1,6 +1,7 @@
 import Options from './options.js'
 
 const mongoose = require('mongoose')
+const host = 'http://localhost:3000'
 
 /**
  * Properties from Organization
