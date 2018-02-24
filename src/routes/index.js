@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-var models = require('../models')
+import { Game, Company } from '../models'
 
 function showError(res, err) {
   res.send({
@@ -22,8 +22,10 @@ router.get('/', (req, res, next) => {
   res.render('index', { title: 'Express' })
 })
 
+// Games
 router.get('/games', (req, res, next) => {
-  models.Game.find({}, (err, models) => {
+  console.log(Game)
+  Game.find({}, (err, models) => {
     if (err) return console.error(err)
 
     res.send(models)
@@ -31,7 +33,7 @@ router.get('/games', (req, res, next) => {
 })
 
 router.post('/games', (req, res, next) => {
-  var note = new models.Game({
+  var note = new Game({
     title: req.body.title,
     body: req.body.body
   })
@@ -46,7 +48,7 @@ router.post('/games', (req, res, next) => {
 router.get('/games/:id', (req, res, next) => {
   const id = req.params.id
 
-  models.Game.findById(id, (err, model) => {
+  Game.findById(id, (err, model) => {
     if (err) return showError(res, err)
 
     res.send(model)
@@ -56,7 +58,7 @@ router.get('/games/:id', (req, res, next) => {
 router.delete('/games/:id', (req, res, next) => {
   const id = req.params.id
 
-  models.Game.findByIdAndRemove(id, (err, model) => {
+  Game.findByIdAndRemove(id, (err, model) => {
     if (err) return showError(res, err)
 
     res.send({ 'success': true })
@@ -66,7 +68,7 @@ router.delete('/games/:id', (req, res, next) => {
 router.put('/games/:id', (req, res, next) => {
   const id = req.params.id
 
-  models.Game.findById(id, (err, model) => {
+  Game.findById(id, (err, model) => {
     if (err) return showError(res, err)
 
     model.name = req.body.name
@@ -79,22 +81,62 @@ router.put('/games/:id', (req, res, next) => {
   })
 })
 
+// Companies
 router.get('/companies', (req, res, next) => {
-  /*
-  models.Game.find({}, (err, models) => {
+  Company.find({}, (err, models) => {
     if (err) return console.error(err)
 
     res.send(models)
   })
-  */
-  var companies = [
-    {id: 1, title: "Category 1"},
-    {id: 2, title: "Category 2"},
-    {id: 3, title: "Category 3"},
-    {id: 4, title: "Category 4"},
-    {id: 5, title: "Category 5"},
-  ]
-  res.send(companies)
+})
+
+router.post('/companies', (req, res, next) => {
+  var note = new Company({
+    title: req.body.title,
+    body: req.body.body
+  })
+
+  note.save((err, model) => {
+    if (err) return showError(res, err)
+
+    res.send(model)
+  })
+})
+
+router.get('/companies/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Company.findById(id, (err, model) => {
+    if (err) return showError(res, err)
+
+    res.send(model)
+  })
+})
+
+router.delete('/companies/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Company.findByIdAndRemove(id, (err, model) => {
+    if (err) return showError(res, err)
+
+    res.send({ 'success': true })
+  })
+})
+
+router.put('/companies/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Company.findById(id, (err, model) => {
+    if (err) return showError(res, err)
+
+    model.name = req.body.name
+    model.description = req.body.description
+    model.save((err, model) => {
+      if (err) return showError(res, err)
+
+      res.send(model)
+    })
+  })
 })
 
 module.exports = router
