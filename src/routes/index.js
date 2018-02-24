@@ -92,6 +92,7 @@ router.get('/companies', (req, res, next) => {
 router.post('/companies', (req, res, next) => {
   var note = new Company({
     name: req.body.name,
+    image: req.body.image,
     description: req.body.description
   })
 
@@ -129,6 +130,7 @@ router.put('/companies/:id', (req, res, next) => {
     if (err) return showError(res, err)
 
     model.name = req.body.name
+    model.image = req.body.image
     model.description = req.body.description
     model.save((err, model) => {
       if (err) return showError(res, err)

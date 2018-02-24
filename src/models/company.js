@@ -97,9 +97,10 @@ var Schema = mongoose.Schema({
 
 
 Schema.virtual('imageURL').get(function () {
-  if (this.image) return this.image
+  if (!this.image) return host + '/images/games/default.jpg'
+  if (this.image[0] == '/') return host + '/images/companies' + this.image
+  return this.image
   // return host + '/images/games/' + this._id + '.jpg'
-  return host + '/images/games/default.jpg'
 })
 Schema.virtual('url').get(function () {
   // URL of the item.	
