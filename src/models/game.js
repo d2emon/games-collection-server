@@ -1,7 +1,9 @@
+import mongoose from 'mongoose'
 import Options from './options.js'
+import config from '../config'
 
-const mongoose = require('mongoose')
-const host = 'http://localhost:3000'
+// const mongoose = require('mongoose')
+const host = config.get('host')
 
 /*
  * Properties from VideoGame
@@ -52,15 +54,11 @@ const host = 'http://localhost:3000'
  * supportingData		DataFeed 		Supporting data for a SoftwareApplication.
  */
 
-var Schema = mongoose.Schema({
+var GameSchema = mongoose.Schema({
   // Properties for Thing
   gameId: String,
   name: String,			// The name of the item.
   alternateName: [String],	// An alias for the item.
-  /**
-   * description	Text
-   *   A description of the item.
-   */
   image: String,		// ImageObject/URL
   //	An image of the item. This can be a URL or a fully described
   //	ImageObject.
@@ -71,7 +69,7 @@ var Schema = mongoose.Schema({
   // aggregateRating		AggregateRating
   // 	The overall rating, based on a collection of reviews or ratings, of
   //	the item.
-  developerId: Number,
+  developer: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   // author			Organization/Person
   //  	The author of this content or rating. Please note that author is
   //  	special in that HTML 5 provides a special mechanism for indicating
@@ -101,7 +99,7 @@ var Schema = mongoose.Schema({
   keywords: [String],
   // Keywords or tags used to describe this content. Multiple entries in a
   // keywords list are typically delimited by commas.
-  publisherId: Number,
+  publisher: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   // publisher			Organization/Person
   // 	The publisher of the creative work.
   reviews: [String]		// A review of the item.
@@ -184,21 +182,16 @@ var Schema = mongoose.Schema({
    */
 }, Options)
 
-Schema.virtual('imageURL').get(function () {
+GameSchema.virtual('imageURL').get(function () {
   if (this.image) return this.image
   // return host + '/images/games/' + this._id + '.jpg'
   return host + '/images/games/default.jpg'
 })
-Schema.virtual('url').get(function () {
+GameSchema.virtual('url').get(function () {
   // URL of the item.	
   return host + '/game/' + this._id
 })
 
-var Game = mongoose.model('Game', Schema)
+var Game = mongoose.model('Game', GameSchema)
 
-/**
-module.exports = {
-  Game: Game
-}
-*/
 export default Game

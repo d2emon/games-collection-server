@@ -1,7 +1,8 @@
 import Options from './options.js'
+import config from '../config'
 
 const mongoose = require('mongoose')
-const host = 'http://localhost:3000'
+const host = config.get('host')
 
 var Schema = mongoose.Schema({
   id: String,

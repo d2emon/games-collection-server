@@ -1,5 +1,6 @@
-var mongoose = require('mongoose')
-var config = require('./config')
+import config from './config'
+
+const mongoose = require('mongoose')
 
 mongoose.connect(config.get('mongoose:uri'), { useMongoClient: true }).then(
   () => { console.log('Connected to url: ' + config.get('mongoose:uri')) },
