@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   mongo:
     image: mongo
@@ -23,9 +23,13 @@ services:
     entrypoint: 'npm run serve'
     env_file:
       - ./env/dev.env
+    links:
+      - mongo
     ports:
       - '5000:5000'
+    restart: always
     volumes:
-      - ./package.json:/app/package.json
-      - ./node_modules:/app/node_modules
-      - ./src:/app/src
+      - ./back/dist:/app/dist
+      - ./back/package.json:/app/package.json
+      - ./back/node_modules:/app/node_modules
+      - ./back/src:/app/src

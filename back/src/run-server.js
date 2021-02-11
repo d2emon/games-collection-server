@@ -1,6 +1,6 @@
 #!/usr/bin/nodejs
 var debug = require('debug')('game-collection');
-var app = require('../src/app');
+var app = require('./app');
 var config = require('./config')
 
 app.set('port', process.env.PORT || config.get('port'));

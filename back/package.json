@@ -1,0 +1,44 @@
+{
+  "name": "game-collection-server",
+  "version": "0.0.2",
+  "description": "Game collection server",
+  "private": true,
+  "main": "./dist/run.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "prestart": "npm run build",
+    "start": "node ./dist/run.js",
+    "debug": "node --debug-brk ./dist/run.js",
+    "serve": "nodemon --watch src --exec npm run start",
+    "test": "mocha --compilers js:babel-register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d2emon/games-collection-server.git"
+  },
+  "author": "Dmitry Kutsenko",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/d2emon/games-collection-server/issues"
+  },
+  "homepage": "https://github.com/d2emon/games-collection-server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.6",
+  },
+  "keywords": [
+    "game",
+    "collection"
+  ]
+}
