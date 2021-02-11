@@ -1,79 +1,47 @@
 import express from 'express';
-import HttpException from '../exceptions/http';
-// import { Game, Company } from '../models'
+import Game from '../models/game';
 
-const showError = (res: express.Response, err: HttpException) => res.send({
-    error: err
-});
-
-export const listGames = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
-    Game.find({}, (err, models) => {
-      if (err) return console.error(err)
-
-      res.send(models)
-    })
-     */
-    return res.json([]);
-};
+export const listGames = (req: express.Request, res: express.Response, next: express.NextFunction) => Game
+    .find({})
+    .then((models) => res.json(models))
+    .catch((error) => res.json({ error }));
 
 export const addGame = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
-    const note = new Game({
-      title: req.body.title,
-      body: req.body.body
-    })
-
-    note.save((err, model) => {
-      if (err) return showError(res, err)
-
-      res.send(model)
-    })
-     */
-    return res.json({});
+    const game = new Game({
+        title: req.body.title,
+        body: req.body.body,
+    });
+    return game
+        .save()
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }
 
 export const getGame = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Game.findById(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      res.send(model)
-    })
-     */
-    return res.json({});
+    return Game
+        .findById(id)
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }
 
 export const deleteGame = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Game.findByIdAndRemove(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      res.send({ 'success': true })
-    })
-     */
-    return res.json({});
+    return Game
+        .findByIdAndRemove(id)
+        .then(() => res.json({ success: true }))
+        .catch((error) => res.json({ error }));
 }
 
 export const updateGame = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Game.findById(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      model.name = req.body.name
-      model.description = req.body.description
-      model.save((err, model) => {
-        if (err) return showError(res, err)
-
-        res.send(model)
-      })
-    })
-     */
-    return res.json({});
+    return Game
+        .findById(id)
+        .then((model) => {
+            model.name = req.body.name
+            model.description = req.body.description
+            return model.save();
+        })
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }

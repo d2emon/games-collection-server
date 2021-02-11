@@ -1,90 +1,31 @@
 import mongoose, {
-  Document,
   Model,
   Schema,
+  Types,
+  model,
 } from 'mongoose';
 import options from './options';
 import config from '../config';
+import { VideoGame } from './types/videoGame';
 
-/*
- * Properties from VideoGame
- *
- * actor	Person 			An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip. Supersedes actors.
- * cheatCode	CreativeWork 		Cheat codes to the game.
- * director	Person 			A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip. Supersedes directors.
- * gamePlatform	Text/Thing/URL	 	The electronic systems used to play video games.
- * gameServer	GameServer 		The server on which it is possible to play the game. Inverse property: game.
- * gameTip	CreativeWork 		Links to tips, tactics, etc.
- * musicBy	MusicGroup/Person 	The composer of the soundtrack.
- * playMode	GamePlayMode 		Indicates whether this game is multi-player, co-op or single-player. The game can be marked as multi-player, co-op and single-player at the same time.
- * trailer	VideoObject 		The trailer of a movie or tv/radio series, season, episode, etc.
- *
- * Properties from Game
- *
- * characterAttribute	Thing 			A piece of data that represents a particular aspect of a ficti	onal character (skill, power, character points, advantage, disadvantage).
- * gameItem		Thing 			An item is an object within the game world that can be collected by a playe	r or, occasionally, a non-player character.
- * gameLocation		Place/PostalAddress/URL	Real or fictional location of the game (or part of game).
- * numberOfPlayers	QuantitativeValue 	Indicate how many people can pla	y this game (minimum, maximum, or range).
- * quest		Thing 			The task that a player-controlled character, or group of characters may complete in order to gain a reward.
- *
- */
-/*
- * Properties from SoftwareApplication
- *
- * applicationCategory		Text or URL	 	Type of software application, e.g. 'Game, Multimedia'.
- * applicationSubCategory	Text or URL 		Subcategory of the application, e.g. 'Arcade Game'.
- * applicationSuite		Text 			The name of the application suite to which the appl	ication belongs (e.g. Excel belongs to Office).
- * availableOnDevice		Text	 		Device required to run the application. Used in cases where a specific make/model is required to run the application. Supersedes device.
- * countriesNotSupported	Text 			Countries for which the application is not support	ed. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
- * countriesSupported		Text 			Countries for which the application is supported. You can also	 provide the two-letter ISO 3166-1 alpha-2 country code.
- * downloadUrl			URL 			If the file can be downloaded, URL to download the binary.
- * featureList			Text or URL 		Features or modules provided by this application (and	 possibly required by other applications).
- * fileSize			Text 			Size of the a	pplication / package (e.g. 18MB). In the absence of a unit (MB, KB etc.), KB will be assumed.
- * installUrl			URL 			URL at which the app may be installed,	 if different from the URL of the item.
- * memoryRequirements		Text or URL	 	Minimum memory requirements.
- * operatingSystem		Text 			Operating systems	 supported (Windows 7, OSX 10.6, Android 1.6).
- * permissions			Text 			Permis	sion(s) required to run the app (for example, a mobile app may require full internet access or may run only on wifi).
- * processorRequirements	Text 			Processor architecture required to run the application (e.g. IA64).
- * releaseNotes			Text  or URL 		Description of what changed in this version.
- * screenshot			ImageObject  or URL	A link to a screenshot image of the app.
- * softwareAddOn		SoftwareApplication 	Additional content for a software ap	plication.
- * softwareHelp			CreativeWork 		Software application help.
- * softwareRequirements		Text  or URL 		Component dependency requirements for app	lication. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime). Supersedes requirements.
- * softwareVersion		Text		 	Version of the software instance.
- * storageRequirements		Text  or URL 		Storage requirements (free space required).
- * supportingData		DataFeed 		Supporting data for a SoftwareApplication.
- */
+export interface GameDocument extends VideoGame, Document {
+  tips: Types.Array<string>;
 
-export interface IGameDocument extends Document {
-  // Properties for Thing
-  gameId: string,
-  name: string,
-  alternateName: string[],
-  image: string,
-  description: string,
-
-  // Properties from CreativeWork
-  rating: number,
-  developer: any,
-  awards: string[],
-  comments: string[],
-  dateCreated: Date,
-  dateModified: Date,
-  datePublished: Date,
-  genreID: number,
-  languages: string[],
-  free: boolean,
-  keywords: string[],
-  publisher: any,
-  reviews: string[],
-
-  imageUrl: string,
-  url: string,
+  imageUrl: string;
+  url: string;
 }
 
-export interface IGameModel extends Model<IGameDocument> {}
+export interface GameModel extends Model<GameDocument> {
+  //
+}
 
-const GameSchema = new Schema({
+const GameSchema = new Schema<GameDocument, GameModel>({
+  tips: {
+    type: Schema.Types.ObjectId,
+    ref: 'Tip',
+  },
+
+  /*
   // Properties for Thing
   gameId: String,
   name: String,			// The name of the item.
@@ -93,7 +34,9 @@ const GameSchema = new Schema({
   // 	An image of the item. This can be a URL or a fully described
   // 	ImageObject.
   description: String,		// A description of the item.
+  */
 
+  /*
   // Properties from CreativeWork
   rating: Number,
   // aggregateRating		AggregateRating
@@ -133,6 +76,7 @@ const GameSchema = new Schema({
   // publisher			Organization/Person
   // 	The publisher of the creative work.
   reviews: [String]		// A review of the item.
+   */
   /*
    * about			Thing
    * 	The subject matter of the content.
@@ -216,11 +160,10 @@ GameSchema.virtual('imageUrl').get(function () {
   if (this.image) return this.image
   // return `${config.HOST}/images/games/${this._id}`;
   return `${config.HOST}/images/games/default.jpg`;
-})
+});
+
 GameSchema.virtual('url').get(function () {
   return `${config.HOST}/api/v1.0/games/${this._id}`;
-})
+});
 
-const Game = mongoose.model<IGameDocument, IGameModel>('Game', GameSchema)
-
-export default Game
+export default model<GameDocument, GameModel>('Game', GameSchema);

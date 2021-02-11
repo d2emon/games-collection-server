@@ -1,81 +1,49 @@
 import express from 'express';
-import HttpException from '../exceptions/http';
-// import { Game, Company } from '../models'
+import Company from '../models/company';
 
-const showError = (res: express.Response, err: HttpException) => res.send({
-    error: err
-});
-
-export const listCompanies = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
-    Company.find({}, (err, models) => {
-      if (err) return console.error(err)
-
-      res.send(models)
-    })
-     */
-    return res.json([]);
-};
+export const listCompanies = (req: express.Request, res: express.Response, next: express.NextFunction) => Company
+    .find({})
+    .then((models) => res.json(models))
+    .catch((error) => res.json({ error }));
 
 export const addCompany = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
-    const note = new Company({
-      name: req.body.name,
-      image: req.body.image,
-      description: req.body.description
-    })
-
-    note.save((err, model) => {
-      if (err) return showError(res, err)
-
-      res.send(model)
-    })
-     */
-    return res.json({});
+    const company = new Company({
+        name: req.body.name,
+        image: req.body.image,
+        description: req.body.description,
+    });
+    return company
+        .save()
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }
 
 export const getCompany = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Company.findById(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      res.send(model)
-    })
-     */
-    return res.json({});
+    return Company
+        .findById(id)
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }
 
 export const deleteCompany = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Company.findByIdAndRemove(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      res.send({ 'success': true })
-    })
-     */
-    return res.json({});
+    return Company
+        .findByIdAndRemove(id)
+        .then(() => res.json({ success: true }))
+        .catch((error) => res.json({ error }));
 }
 
 export const updateCompany = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    /*
     const id = req.params.id
-
-    Company.findById(id, (err, model) => {
-      if (err) return showError(res, err)
-
-      model.name = req.body.name
-      model.image = req.body.image
-      model.description = req.body.description
-      model.save((err, model) => {
-        if (err) return showError(res, err)
-
-        res.send(model)
-      })
-    })
-     */
-    return res.json({});
+    return Company
+        .findById(id)
+        .then((model) => {
+            model.name = req.body.name
+            model.image = req.body.image
+            model.description = req.body.description
+            return model.save();
+        })
+        .then((model) => res.json(model))
+        .catch((error) => res.json({ error }));
 }
