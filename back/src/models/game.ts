@@ -1,13 +1,14 @@
-import mongoose from 'mongoose'
-import Options from './options.js'
-import config from '../config'
-
-// const mongoose = require('mongoose')
-const host = config.get('host')
+import mongoose, {
+  Document,
+  Model,
+  Schema,
+} from 'mongoose';
+import options from './options';
+import config from '../config';
 
 /*
  * Properties from VideoGame
- * 
+ *
  * actor	Person 			An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip. Supersedes actors.
  * cheatCode	CreativeWork 		Cheat codes to the game.
  * director	Person 			A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip. Supersedes directors.
@@ -17,15 +18,15 @@ const host = config.get('host')
  * musicBy	MusicGroup/Person 	The composer of the soundtrack.
  * playMode	GamePlayMode 		Indicates whether this game is multi-player, co-op or single-player. The game can be marked as multi-player, co-op and single-player at the same time.
  * trailer	VideoObject 		The trailer of a movie or tv/radio series, season, episode, etc.
- * 
+ *
  * Properties from Game
- * 
+ *
  * characterAttribute	Thing 			A piece of data that represents a particular aspect of a ficti	onal character (skill, power, character points, advantage, disadvantage).
  * gameItem		Thing 			An item is an object within the game world that can be collected by a playe	r or, occasionally, a non-player character.
  * gameLocation		Place/PostalAddress/URL	Real or fictional location of the game (or part of game).
  * numberOfPlayers	QuantitativeValue 	Indicate how many people can pla	y this game (minimum, maximum, or range).
  * quest		Thing 			The task that a player-controlled character, or group of characters may complete in order to gain a reward.
- * 
+ *
  */
 /*
  * Properties from SoftwareApplication
@@ -54,21 +55,50 @@ const host = config.get('host')
  * supportingData		DataFeed 		Supporting data for a SoftwareApplication.
  */
 
-var GameSchema = mongoose.Schema({
+export interface IGameDocument extends Document {
+  // Properties for Thing
+  gameId: string,
+  name: string,
+  alternateName: string[],
+  image: string,
+  description: string,
+
+  // Properties from CreativeWork
+  rating: number,
+  developer: any,
+  awards: string[],
+  comments: string[],
+  dateCreated: Date,
+  dateModified: Date,
+  datePublished: Date,
+  genreID: number,
+  languages: string[],
+  free: boolean,
+  keywords: string[],
+  publisher: any,
+  reviews: string[],
+
+  imageUrl: string,
+  url: string,
+}
+
+export interface IGameModel extends Model<IGameDocument> {}
+
+const GameSchema = new Schema({
   // Properties for Thing
   gameId: String,
   name: String,			// The name of the item.
   alternateName: [String],	// An alias for the item.
   image: String,		// ImageObject/URL
-  //	An image of the item. This can be a URL or a fully described
-  //	ImageObject.
+  // 	An image of the item. This can be a URL or a fully described
+  // 	ImageObject.
   description: String,		// A description of the item.
 
   // Properties from CreativeWork
   rating: Number,
   // aggregateRating		AggregateRating
   // 	The overall rating, based on a collection of reviews or ratings, of
-  //	the item.
+  // 	the item.
   developer: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   // author			Organization/Person
   //  	The author of this content or rating. Please note that author is
@@ -180,18 +210,17 @@ var GameSchema = mongoose.Schema({
    * video			VideoObject
    * 	An embedded video object.
    */
-}, Options)
+}, options)
 
-GameSchema.virtual('imageURL').get(function () {
+GameSchema.virtual('imageUrl').get(function () {
   if (this.image) return this.image
-  // return host + '/images/games/' + this._id + '.jpg'
-  return host + '/images/games/default.jpg'
+  // return `${config.HOST}/images/games/${this._id}`;
+  return `${config.HOST}/images/games/default.jpg`;
 })
 GameSchema.virtual('url').get(function () {
-  // URL of the item.	
-  return host + '/game/' + this._id
+  return `${config.HOST}/api/v1.0/games/${this._id}`;
 })
 
-var Game = mongoose.model('Game', GameSchema)
+const Game = mongoose.model<IGameDocument, IGameModel>('Game', GameSchema)
 
 export default Game

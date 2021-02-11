@@ -2,10 +2,8 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-// import db, { connect } from './helpers/mongo';
+import connection, { connect } from './lib/mongo';
 // import debug from './helpers/debug';
-// import db from './lib/db';
-// import oauth from './lib/oauth';
 
 import NotFoundException from './exceptions/notFound';
 import ErrorHandler from './handlers/error';
@@ -18,25 +16,20 @@ import companiesRouter from './routes/companies';
 
 const app = express();
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'pug');
+app.locals.publicPath = path.join(__dirname, '..', 'public');
+app.locals.connection = connection
+// app.locals.oauth = oauth;
+// connection.on('error', error => debug(error || ''));
+// connection.once('open', () => debug('MongoDB connected'));
 
 // app.set('models', models)
-// app.set('dbConnection', connect(process.env.MONGO_URI))
-// db.on('error', error => debug('db')(error || ''));
-// db.once('open', () => debug('db')('MongoDB connected'));
-
-const publicPath = path.join(__dirname, '..', 'public');
-
-// app.locals.db = db;
-// app.locals.oauth = oauth;
+app.set('dbConnection', connect)
 
 app.use(logger('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(publicPath));
+app.use(express.static(app.locals.publicPath));
 
 app.use('/', indexRouter);
 app.use('/api/v1.0/games', gamesRouter);

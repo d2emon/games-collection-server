@@ -1,10 +1,12 @@
-import Options from './options.js'
-import config from '../config'
+import mongoose, {
+  Document,
+  Model,
+  Schema,
+} from 'mongoose';
+import options from './options';
+import config from '../config';
 
-const mongoose = require('mongoose')
-const host = config.get('host')
-
-/**
+/*
  * Properties from Organization
  *
  * actionableFeedbackPolicy	CreativeWork / URL
@@ -170,7 +172,21 @@ const host = config.get('host')
  * 	The Value-added Tax ID of the organization or person.
  */
 
-var Schema = mongoose.Schema({
+export interface ICompanyDocument extends Document {
+  // Properties for Thing
+  companyId: string,
+  name: string,
+  alternateName: string[],
+  image: string,
+  description: string,
+
+  imageUrl: string,
+  url: string,
+}
+
+export interface ICompanyModel extends Model<ICompanyDocument> {}
+
+const CompanySchema = new Schema({
   companyId: String,
   name: String,			// The name of the item.
   alternateName: [String],	// An alias for the item.
@@ -179,23 +195,21 @@ var Schema = mongoose.Schema({
    *   A description of the item.
    */
   image: String,		// ImageObject/URL
-  //	An image of the item. This can be a URL or a fully described
-  //	ImageObject.
+  // 	An image of the item. This can be a URL or a fully described
+  // 	ImageObject.
   description: String,		// A description of the item.
-}, Options)
+}, options)
 
 
-Schema.virtual('imageURL').get(function () {
-  if (!this.image) return host + '/images/games/default.jpg'
-  if (this.image[0] == '/') return host + '/images/companies' + this.image
+CompanySchema.virtual('imageURL').get(function () {
+  if (!this.image) return `${config.HOST}/images/games/default.jpg`;
+  if (this.image[0] === '/') return `${config.HOST}/images/companies/${this.image}`;
   return this.image
-  // return host + '/images/games/' + this._id + '.jpg'
 })
-Schema.virtual('url').get(function () {
-  // URL of the item.	
-  return host + '/game/' + this._id
+CompanySchema.virtual('url').get(function () {
+  return `${config.HOST}/api/v1.0/companies/${this._id}`;
 })
 
-var Company = mongoose.model('Company', Schema)
+const Company = mongoose.model<ICompanyDocument, ICompanyModel>('Company', CompanySchema);
 
-export default Company
+export default Company;
