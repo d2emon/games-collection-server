@@ -12,6 +12,7 @@ RUN npm install
 
 # Folders
 COPY .babelrc ./
+COPY ts*.json ./
 COPY dist ./dist
 COPY public ./public
 COPY src ./src

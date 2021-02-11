@@ -3,13 +3,19 @@
   "version": "0.0.2",
   "description": "Game collection server",
   "private": true,
-  "main": "./dist/run.js",
+  "main": "./src/index.js",
+  "bin": {
+    "app": "./src/index.js"
+  },
   "scripts": {
-    "build": "babel src -d dist",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "prebuild": "npm run lint",
+    "build": "tsc",
     "prestart": "npm run build",
-    "start": "node ./dist/run.js",
-    "debug": "node --debug-brk ./dist/run.js",
-    "serve": "nodemon --watch src --exec npm run start",
+    "start": "node ./dist",
+    "debug": "node --debug-brk src/app.js",
+    "dev": "supervisor src/app.js",
+    "serve": "DEBUG=games-collection nodemon --watch src -e ts,ejs --exec npm run start",
     "test": "mocha --compilers js:babel-register"
   },
   "repository": {
@@ -30,12 +36,17 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
+    "@types/body-parser": "^1.19.0",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.10",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^13.11.1",
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3"
   },
   "keywords": [
     "game",
