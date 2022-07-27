@@ -8,6 +8,7 @@ import options from './options';
 import config from '../config';
 import { VideoGame } from './types/videoGame';
 
+/*eslint-disable */
 export interface GameDocument extends VideoGame, Document {
   tips: Types.Array<string>;
 
@@ -165,5 +166,6 @@ GameSchema.virtual('imageUrl').get(function () {
 GameSchema.virtual('url').get(function () {
   return `${config.HOST}/api/v1.0/games/${this._id}`;
 });
+/*eslint-enable */
 
 export default model<GameDocument, GameModel>('Game', GameSchema);

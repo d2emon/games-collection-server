@@ -1,6 +1,7 @@
 import express from 'express';
 import Company from '../models/company';
 
+/*eslint-disable */
 export const listCompanies = (req: express.Request, res: express.Response, next: express.NextFunction) => Company
     .find({})
     .then((models) => res.json(models))
@@ -47,3 +48,4 @@ export const updateCompany = (req: express.Request, res: express.Response, next:
         .then((model) => res.json(model))
         .catch((error) => res.json({ error }));
 }
+/*eslint-enable */

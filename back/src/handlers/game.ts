@@ -1,6 +1,7 @@
 import express from 'express';
 import Game from '../models/game';
 
+/*eslint-disable */
 export const listGames = (req: express.Request, res: express.Response, next: express.NextFunction) => Game
     .find({})
     .then((models) => res.json(models))

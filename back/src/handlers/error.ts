@@ -3,6 +3,7 @@ import config from '../config';
 import debug from '../debug';
 import HttpException from '../exceptions/http';
 
+/*eslint-disable */
 const errorResponse = (error: HttpException) => ({
     error: error.status,
     errorMessage: error.message,
@@ -27,3 +28,4 @@ export default (error: HttpException, req: express.Request, res: express.Respons
     debug(error);
     return errorHandler(error, req, res, next);
 };
+/*eslint-enable */
