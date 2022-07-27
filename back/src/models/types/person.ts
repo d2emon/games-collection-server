@@ -3,5 +3,5 @@ import {
 } from 'mongoose';
 
 export interface IPersonDocument extends Document {
-  personData: any;
+  personData: unknown;
 }

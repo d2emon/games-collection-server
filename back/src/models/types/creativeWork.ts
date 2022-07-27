@@ -1,7 +1,7 @@
 import { IThingDocument } from './thing';
 
 export interface ICreativeWorkDocument extends IThingDocument {
-  about: any;
+  about: unknown;
   // abstract: string;
   // accessMode: string;
   // accessModeSufficient: string[];
@@ -18,9 +18,9 @@ export interface ICreativeWorkDocument extends IThingDocument {
   // associatedMedia: string;
   // audience: string;
   // audio: string;
-  authors: any[]; // developers
+  authors: unknown; // any[]; // developers
   awards: string[];
-  character: any;
+  character: unknown;
   // citation: string;
   comments: string[];
   // commentsCount: number;
@@ -62,7 +62,7 @@ export interface ICreativeWorkDocument extends IThingDocument {
   // learningResourceType: string;
   // license: string;
   // locationCreated: string;
-  mainEntity: any;
+  mainEntity: unknown; // any;
   // maintainer: any;
   // material: string;
   // materialExtent: string;
@@ -73,7 +73,7 @@ export interface ICreativeWorkDocument extends IThingDocument {
   // producer: any;
   // provider: any;
   // publication: any;
-  publisher: any;
+  publisher: unknown; // any;
   // publisherImprint: any;
   // publishingPrinciples: string;
   // recordedAt: any;

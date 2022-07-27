@@ -18,6 +18,6 @@ export interface IThingDocument extends Document {
   // subjectOf: any;
 
   imageUrl: string,
-  entities: any[];
+  entities: unknown; // any[];
   url: string,
 }

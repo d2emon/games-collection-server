@@ -16,7 +16,7 @@ export interface ISoftwareDocument extends ICreativeWorkDocument {
   // permissions: string[];
   processorRequirements: string;
   // releaseNotes: string;
-  screenshots: any[];
+  screenshots: unknown; // any[];
   softwareAddOns: ISoftwareDocument[];
   // softwareHelp: ICreativeWorkDocument[];
   softwareRequirements: string;

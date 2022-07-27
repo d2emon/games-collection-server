@@ -1,7 +1,7 @@
 /**
  * Normalize a port into a number, string, or false.
  */
-export default (value: any): number | boolean => {
+export default (value: string): number | boolean => {
   const port = parseInt(value, 10);
 
   /*

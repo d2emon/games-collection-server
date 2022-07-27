@@ -11,6 +11,11 @@ const port = normalizePort(config.PORT);
 app.set('port', port);
 
 /**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+
+/**
  * Event listener for HTTP server "listening" event.
  */
 const onListening = () => {
@@ -22,9 +27,7 @@ const onListening = () => {
 };
 
 /**
- * Create HTTP server.
  * Listen on provided port, on all network interfaces.
  */
-const server = http.createServer(app);
 server.listen(app.get('port'));
 server.on('listening', onListening);

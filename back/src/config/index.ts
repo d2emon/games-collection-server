@@ -8,7 +8,7 @@ const config = {
   LOG_LEVEL: process.env.LOG_LEVEL,
   LOG_FILENAME: process.env.LOG_FILENAME,
   MONGO_URI: process.env.MONGO_URI,
-  PORT: process.env.PORT || 3000,
+  PORT: process.env.PORT || '3000',
 };
 
 /*

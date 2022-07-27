@@ -1,7 +1,7 @@
 import Game from './game';
 import Company from './company';
 
-module.exports = {
+export default {
   Game,
   Company,
 };

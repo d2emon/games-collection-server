@@ -5,5 +5,5 @@ export interface ICommonGameDocument extends ICreativeWorkDocument {
   gameItems: string[];
   gameLocations: string[];
   numberOfPlayers: number;
-  quest: any;
+  quest: unknown;
 }
