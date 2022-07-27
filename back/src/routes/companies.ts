@@ -1,13 +1,13 @@
 import express from 'express';
 import {
-    listCompanies,
-    addCompany,
-    getCompany,
-    updateCompany,
-    deleteCompany,
+  listCompanies,
+  addCompany,
+  getCompany,
+  updateCompany,
+  deleteCompany,
 } from '../handlers/company';
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/', listCompanies);
 router.post('/', addCompany);

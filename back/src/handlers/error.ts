@@ -28,4 +28,4 @@ export default (error: HttpException, req: express.Request, res: express.Respons
     debug(error);
     return errorHandler(error, req, res, next);
 };
-/*eslint-enable */
+/* eslint-enable */

@@ -1,13 +1,13 @@
 import express from 'express';
 import {
-    listGames,
-    addGame,
-    getGame,
-    updateGame,
-    deleteGame,
+  listGames,
+  addGame,
+  getGame,
+  updateGame,
+  deleteGame,
 } from '../handlers/game';
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/', listGames);
 router.post('/', addGame);

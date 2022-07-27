@@ -1,7 +1,7 @@
 import {
-    Document,
+  Document,
 } from 'mongoose';
 
 export interface IPersonDocument extends Document {
-    personData: any;
+  personData: any;
 }

@@ -210,7 +210,7 @@ CompanySchema.virtual('imageURL').get(function () {
 CompanySchema.virtual('url').get(function () {
   return `${config.HOST}/api/v1.0/companies/${this._id}`;
 })
-/*eslint-enable */
+/* eslint-enable */
 
 const Company = mongoose.model<ICompanyDocument, ICompanyModel>('Company', CompanySchema);
 

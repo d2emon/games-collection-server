@@ -17,13 +17,13 @@ import companiesRouter from './routes/companies';
 const app = express();
 
 app.locals.publicPath = path.join(__dirname, '..', 'public');
-app.locals.connection = connection
+app.locals.connection = connection;
 // app.locals.oauth = oauth;
 // connection.on('error', error => debug(error || ''));
 // connection.once('open', () => debug('MongoDB connected'));
 
 // app.set('models', models)
-app.set('dbConnection', connect)
+app.set('dbConnection', connect);
 
 app.use(logger('dev'));
 app.use(cors());
@@ -37,10 +37,10 @@ app.use('/api/v1.0/companies', companiesRouter);
 
 // error handlers
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => ErrorHandler(
-    new NotFoundException(),
-    req,
-    res,
-    next,
+  new NotFoundException(),
+  req,
+  res,
+  next,
 ));
 app.use(ErrorHandler);
 

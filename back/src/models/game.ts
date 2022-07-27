@@ -166,6 +166,6 @@ GameSchema.virtual('imageUrl').get(function () {
 GameSchema.virtual('url').get(function () {
   return `${config.HOST}/api/v1.0/games/${this._id}`;
 });
-/*eslint-enable */
+/* eslint-enable */
 
 export default model<GameDocument, GameModel>('Game', GameSchema);

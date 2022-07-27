@@ -48,4 +48,4 @@ export const updateCompany = (req: express.Request, res: express.Response, next:
         .then((model) => res.json(model))
         .catch((error) => res.json({ error }));
 }
-/*eslint-enable */
+/* eslint-enable */

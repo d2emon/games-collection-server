@@ -1,7 +1,7 @@
 import {
-    Document,
+  Document,
 } from 'mongoose';
 
 export interface IGamePlatformDocument extends Document {
-    platformData: any;
+  platformData: any;
 }
